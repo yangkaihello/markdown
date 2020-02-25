@@ -75,3 +75,21 @@
           }
 
     ```
+
+
+## 配置服务器映射动态版本
+
+  * 创建server-version.conf 对文件内写入以下配置 通过include来使用
+  * 需要在 include <font color="red">之前</font>设定项目名称 set $project "version";
+  * 需要在 include <font color="red">之后</font>设定项目目录 root $rootPath;
+    ```
+    if ( $http_server_code_version = "" ) { 
+            set $http_server_code_version "master";
+    }
+
+    location /server-version {
+            try_files $uri $uri/ /index.php;
+    }
+
+    set $rootPath "/www/project/${project}/${http_server_code_version}";
+    ```
